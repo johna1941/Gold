@@ -1,0 +1,7 @@
+# This is a batch mode macro file for the attenuation studies. 
+# This is called by running ./Gold1run in the SC computer local area. 
+# Useless when not ran on SC computer, but saved as a template for future studies
+/run/initialize
+/control/execute init_run.mac
+
+/run/beamOn 100

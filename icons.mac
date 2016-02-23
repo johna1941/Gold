@@ -1,0 +1,24 @@
+#
+# This file permits to customize, with commands,
+# the icon menu bar of the G4UIQt sessions not yet implemented other UI drivers (geant4-09-05-ref-09)
+# It has no effect with G4UIterminal.
+
+# open/save icons
+/gui/addIcon "Open macro file" open /control/execute
+/gui/addIcon "Save viewer state" save /vis/viewer/save
+
+# Surface Style icons
+/gui/addIcon "Surfaces" solid 
+/gui/addIcon "Wireframe" wireframe 
+
+# Perspective/Ortho icons
+/gui/addIcon "Perspective" perspective 
+/gui/addIcon "Orthographic" ortho 
+
+# Run icons
+/gui/addIcon "Beam On 10000" user_icon "/run/beamOn 10000" harrypotter5.png
+/gui/addIcon "Beam On 10" user_icon "/run/beamOn 10" harrypotter1.png
+
+# Visualisation Icons
+/gui/addIcon "Disable Visualisation" user_icon "/vis/disable" monkey.png
+/gui/addIcon "Enable Visualisation" user_icon "/vis/enable 1" illuminati.png

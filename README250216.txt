@@ -1,0 +1,9 @@
+NOTE: For small numbers of photons, it may well be that a significant number of photons transmit straight through. We do not see ANY scintillation until an electron is produced in the medium: this is what can stimulate the medium to produce scintillation photons. Hence, we're waiting for a photoelectric absorption before scintillation occurs. 
+
+6 MeV is the maximum energy, 2 MeV is more realistic. Either way, that's above the energies that PEE dominates, but below the energies where PP dominates. Hence, you won't get realistic values unless you use > 1000 photons, or indeed more. 
+
+You should be able to (using JA's emailed code and the user guide) produce a distribution of photon energies from your GPS, to match the Bremsstrahlung curve. This will be infinitely more realistic and produce much better results. 
+
+Consider however whether this should be in 'master' or 'DeathStarII', based on the studies we're actually intending for 'DeathStarII'.  
+
+You're also going to need to check that the construction matches the specifications given to Dave Chorlton: inner diameter is 40mm and thickness is 5mm! Currently the *radius* is set to 4-5cm or something. 
