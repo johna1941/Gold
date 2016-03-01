@@ -79,7 +79,7 @@
 #########################
 ### Axes, scale, etc. ###
 #########################
-/vis/scene/add/scale   # Simple scale line
+#/vis/scene/add/scale   # Simple scale line
 # /vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue. 	# Removed by SC for preference
 /vis/scene/add/eventID # Drawn at end of event
 /vis/scene/add/date    # Date stamp
@@ -107,6 +107,9 @@
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
 /vis/viewer/set/rotationStyle freeRotation
+
+/vis/viewer/set/targetPoint 0 0 -5 cm
+/vis/viewer/zoom 100000
 #
 
 ###################################################

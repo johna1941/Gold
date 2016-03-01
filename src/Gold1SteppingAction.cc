@@ -34,8 +34,12 @@
 
 #include "G4Step.hh"
 #include "G4Event.hh"
+#include "G4Electron.hh"
 #include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
+#include "G4SystemOfUnits.hh"
+
+#include <fstream>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -49,26 +53,40 @@ Gold1SteppingAction::~Gold1SteppingAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void Gold1SteppingAction::UserSteppingAction(const G4Step* /*step*/)
+std::ofstream peOutFile("photo_electron_kinetic_energies.dat");
+std::ofstream escapeOutFile("escape_electron_kinetic_energies.dat");
+G4Mutex outFileMutex = G4MUTEX_INITIALIZER;
+
+void Gold1SteppingAction::UserSteppingAction(const G4Step* step)
 {
-//  if (!fScoringVolume) { 
-//    const Gold1DetectorConstruction* detectorConstruction
-//      = static_cast<const Gold1DetectorConstruction*>
-//        (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-//    fScoringVolume = detectorConstruction->GetScoringVolume();   
-//  }
-//
-//  // get volume of the current step
-//  G4LogicalVolume* volume 
-//    = step->GetPreStepPoint()->GetTouchableHandle()
-//      ->GetVolume()->GetLogicalVolume();
-//      
-//  // check if we are in scoring volume
-//  if (volume != fScoringVolume) return;
-//
-//  // collect energy deposited in this step
-//  G4double edepStep = step->GetTotalEnergyDeposit();
-//  fEventAction->AddEdep(edepStep);  
+  G4StepPoint* postStepPoint = step->GetPostStepPoint();
+
+  G4String processName = postStepPoint->GetProcessDefinedStep()->GetProcessName();
+  if (processName == "phot") {
+    const std::vector<const G4Track*>* secondaries = step->GetSecondaryInCurrentStep();
+    for (const auto& track: *secondaries) {
+      const G4ParticleDefinition* secondaryParticleDefinition = track->GetParticleDefinition();
+      if (secondaryParticleDefinition == G4Electron::Electron()) {
+        G4double kineticEnergy = track->GetKineticEnergy();
+        G4MUTEXLOCK(&outFileMutex);
+        peOutFile << kineticEnergy/eV << std::endl;
+        G4MUTEXUNLOCK(&outFileMutex);
+      }
+    }
+    return;
+  }
+
+  G4Track* track = step->GetTrack();
+  if (track->GetDefinition() == G4Electron::Electron()) {
+    G4String postStepPVName = postStepPoint->GetTouchableHandle()->GetVolume()->GetName();
+    if (postStepPVName == "World") {
+      G4double kineticEnergy = track->GetKineticEnergy();
+      G4MUTEXLOCK(&outFileMutex);
+      escapeOutFile << kineticEnergy/eV << std::endl;
+      G4MUTEXUNLOCK(&outFileMutex);
+    }
+    return;
+  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -10,28 +10,28 @@
 Gold1DetectorMessenger::Gold1DetectorMessenger(Gold1DetectorConstruction * myDet)
 :myDetector(myDet)
 {
-  fpGold1CommandDirectory = new G4UIcommand("/PDMPhys/",this);
+  fpGold1CommandDirectory = new G4UIcommand("/Gold/",this);
   fpGold1CommandDirectory->SetGuidance("Gold1 detector control.");
 
-  fpGold1SetDirectory = new G4UIcommand("/PDMPhys/set/",this);
+  fpGold1SetDirectory = new G4UIcommand("/Gold/set/",this);
   fpGold1SetDirectory->SetGuidance("Set commands.");
 
-  fpReflectivityCommand = new G4UIcmdWithADouble("/PDMPhys/set/reflectivity",this);
-  fpReflectivityCommand->SetGuidance("Define reflectivity of chamber walls.");
-  fpReflectivityCommand->SetToBeBroadcasted(false);
-  fpReflectivityCommand->AvailableForStates(G4State_PreInit);
+//  fpReflectivityCommand = new G4UIcmdWithADouble("/Gold/set/reflectivity",this);
+//  fpReflectivityCommand->SetGuidance("Define reflectivity of chamber walls.");
+//  fpReflectivityCommand->SetToBeBroadcasted(false);
+//  fpReflectivityCommand->AvailableForStates(G4State_PreInit);
 }
 
 Gold1DetectorMessenger::~Gold1DetectorMessenger () {
-  delete fpReflectivityCommand;
+//  delete fpReflectivityCommand;
   delete fpGold1SetDirectory;
   delete fpGold1CommandDirectory;
 }
 
 void Gold1DetectorMessenger::SetNewValue(G4UIcommand * command,G4String newValues)
 {
-  if (command == fpReflectivityCommand)
-  {
-    myDetector->fReflectivity = fpReflectivityCommand->GetNewDoubleValue(newValues);
-  }
+//  if (command == fpReflectivityCommand)
+//  {
+//    myDetector->fReflectivity = fpReflectivityCommand->GetNewDoubleValue(newValues);
+//  }
 }

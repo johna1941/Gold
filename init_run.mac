@@ -1,20 +1,14 @@
-# Macro file for the initialization of example B1
-# in interactive session
-#
 # Set some default verbose
 /control/verbose 2
 /control/saveHistory
 /run/verbose 2
-/process/optical/verbose 0	# Supress output to allow large numbers of photons to be used with optical processes enabled
-#
-/PDMPhys/set/reflectivity 0.001
-#
-# Initialize kernel
-/run/initialize
 
-###############################
-### Initialise particle gun ###
-###############################
-#Pick a gun to use. 
+/run/numberOfThreads 8
+
+/cuts/setLowEdge 250 eV
+/process/em/deexcitationIgnoreCut true
+/process/em/fluo true
+/process/em/auger true
+/run/initialize
 
 /control/execute gun.mac

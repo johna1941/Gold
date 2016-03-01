@@ -110,14 +110,15 @@ const array <double,19> lineWidths = {52.1, // K
 
 //G4ThreadLocal G4ParticleChangeForLoss* lifetimeParticleChange =
 //  new G4ParticleChangeForLoss;
-G4ThreadLocal G4ParticleChangeForGamma* lifetimeParticleChange =
-  new G4ParticleChangeForGamma;
+G4ThreadLocal G4ParticleChangeForGamma* lifetimeParticleChange = nullptr;
 //G4ThreadLocal G4ParticleChange* lifetimeParticleChange = new G4ParticleChange;
 
 LifetimeBroadening::LifetimeBroadening(const G4String& processName)
   : G4VDiscreteProcess(processName)
 {
   //pParticleChange = &fParticleChange;
+  if (lifetimeParticleChange == nullptr) lifetimeParticleChange =
+    new G4ParticleChangeForGamma;
 }
 
 LifetimeBroadening::~LifetimeBroadening() 
@@ -185,7 +186,7 @@ G4VParticleChange* LifetimeBroadening::PostStepDoIt(const G4Track& aTrack,
 
     double currentError = (livermoreBE[i]-((1487.6*eV)-particleEnergy));
     //cout << livermoreBE[i] << " " << particleEnergy << " " << (livermoreBE[i]-((1487.6*eV)-particleEnergy)) << endl;
-    if (abs(currentError)<bestError && abs(currentError<10*eV)) {
+    if (abs(currentError)<bestError && abs(currentError)<10*eV) {
       index = i;
       bestError = abs(currentError);
       found = true;

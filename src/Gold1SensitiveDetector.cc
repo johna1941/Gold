@@ -23,7 +23,6 @@
 #include "G4StepPoint.hh"
 #include "G4RunManager.hh"
 #include "G4SystemOfUnits.hh"
-#include "G4OpticalPhoton.hh"
 
 Gold1SensitiveDetector::Gold1SensitiveDetector(const G4String& name)
 : G4VSensitiveDetector(name)
@@ -32,58 +31,58 @@ Gold1SensitiveDetector::Gold1SensitiveDetector(const G4String& name)
 G4bool Gold1SensitiveDetector::ProcessHits(G4Step* step,
                                         G4TouchableHistory*)
 {
-  G4Track* track = step->GetTrack();
-  const G4ParticleDefinition* pPDef = track->GetParticleDefinition();
-  if (pPDef != G4OpticalPhoton::Definition()) {return true;}
-
-  // It's an optical photon - kill it!!!
-  track->SetTrackStatus(fStopAndKill);
-
-  // It's an optical photon
-
-  G4RunManager* runManager = G4RunManager::GetRunManager();
-  const G4VUserDetectorConstruction* dc = runManager->GetUserDetectorConstruction();
-  const Gold1DetectorConstruction* constdc = static_cast<const Gold1DetectorConstruction*>(dc);
-  Gold1DetectorConstruction* p1dc = const_cast<Gold1DetectorConstruction*>(constdc);
-
-  G4StepPoint* preSP = step->GetPreStepPoint();
-  const G4TouchableHandle& preTH = preSP->GetTouchableHandle();
-  G4VPhysicalVolume* prePV = preTH->GetVolume();
-  G4ThreeVector axis;
-  if (prePV == p1dc->fFibrePV) {
-    axis = p1dc->fFibre_axis;
-    }
-/*
-  G4ThreeVector direction = track->GetMomentumDirection();
-  if (direction * axis < 0.924) { // cos (22.5) = 0.9238795...
-    // Too far from axis - don't count?
-    return true;
-  }
-*/
-  const G4UserEventAction* ea = runManager->GetUserEventAction();
-  const Gold1EventAction* constp1ea = static_cast<const Gold1EventAction*>(ea);
-  Gold1EventAction* p1ea = const_cast<Gold1EventAction*>(constp1ea);
-
-  p1ea->AddPhoton();
-
-  //  G4double eDep = step->GetTotalEnergyDeposit();
-
-  //  G4Track* track = step->GetTrack();
-  //  const G4ParticleDefinition* pPDef = track->GetParticleDefinition();
-  //  const G4String& partName = pPDef->GetParticleName();
-
-  //  G4StepPoint* preSP = step->GetPreStepPoint();
-  //  G4double ke = preSP->GetKineticEnergy();
-  //  const G4TouchableHandle& preTH = preSP->GetTouchableHandle();
-  //  G4VPhysicalVolume* prePV = preTH->GetVolume();
-  //  G4int copyNo = prePV->GetCopyNo();
-
-  //  G4StepPoint* postSP = step->GetPostStepPoint();
-  //  const G4VProcess* postProcess = postSP->GetProcessDefinedStep();
-  //  const G4String& postProcessname = postProcess->GetProcessName();
-
-  //  G4cout << "Cell: " << copyNo << ", adding: " << eDep/keV << " keV" << G4endl;
-  //  p1ea->AddEdep(copyNo,eDep);
-  
+//  G4Track* track = step->GetTrack();
+//  const G4ParticleDefinition* pPDef = track->GetParticleDefinition();
+//  if (pPDef != G4OpticalPhoton::Definition()) {return true;}
+//
+//  // It's an optical photon - kill it!!!
+//  track->SetTrackStatus(fStopAndKill);
+//
+//  // It's an optical photon
+//
+//  G4RunManager* runManager = G4RunManager::GetRunManager();
+//  const G4VUserDetectorConstruction* dc = runManager->GetUserDetectorConstruction();
+//  const Gold1DetectorConstruction* constdc = static_cast<const Gold1DetectorConstruction*>(dc);
+//  Gold1DetectorConstruction* p1dc = const_cast<Gold1DetectorConstruction*>(constdc);
+//
+//  G4StepPoint* preSP = step->GetPreStepPoint();
+//  const G4TouchableHandle& preTH = preSP->GetTouchableHandle();
+//  G4VPhysicalVolume* prePV = preTH->GetVolume();
+//  G4ThreeVector axis;
+//  if (prePV == p1dc->fFibrePV) {
+//    axis = p1dc->fFibre_axis;
+//    }
+///*
+//  G4ThreeVector direction = track->GetMomentumDirection();
+//  if (direction * axis < 0.924) { // cos (22.5) = 0.9238795...
+//    // Too far from axis - don't count?
+//    return true;
+//  }
+//*/
+//  const G4UserEventAction* ea = runManager->GetUserEventAction();
+//  const Gold1EventAction* constp1ea = static_cast<const Gold1EventAction*>(ea);
+//  Gold1EventAction* p1ea = const_cast<Gold1EventAction*>(constp1ea);
+//
+//  p1ea->AddPhoton();
+//
+//  //  G4double eDep = step->GetTotalEnergyDeposit();
+//
+//  //  G4Track* track = step->GetTrack();
+//  //  const G4ParticleDefinition* pPDef = track->GetParticleDefinition();
+//  //  const G4String& partName = pPDef->GetParticleName();
+//
+//  //  G4StepPoint* preSP = step->GetPreStepPoint();
+//  //  G4double ke = preSP->GetKineticEnergy();
+//  //  const G4TouchableHandle& preTH = preSP->GetTouchableHandle();
+//  //  G4VPhysicalVolume* prePV = preTH->GetVolume();
+//  //  G4int copyNo = prePV->GetCopyNo();
+//
+//  //  G4StepPoint* postSP = step->GetPostStepPoint();
+//  //  const G4VProcess* postProcess = postSP->GetProcessDefinedStep();
+//  //  const G4String& postProcessname = postProcess->GetProcessName();
+//
+//  //  G4cout << "Cell: " << copyNo << ", adding: " << eDep/keV << " keV" << G4endl;
+//  //  p1ea->AddEdep(copyNo,eDep);
+//  
   return true;
 }

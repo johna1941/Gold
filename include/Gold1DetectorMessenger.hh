@@ -19,7 +19,7 @@ private:
   Gold1DetectorConstruction * myDetector;
   G4UIcommand* fpGold1CommandDirectory;
   G4UIcommand* fpGold1SetDirectory;
-  G4UIcmdWithADouble* fpReflectivityCommand;
+//  G4UIcmdWithADouble* fpReflectivityCommand;
 };
 
 #endif

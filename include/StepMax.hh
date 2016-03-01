@@ -23,43 +23,56 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: Gold1DetectorConstruction.hh 69565 2013-05-08 12:35:31Z gcosmo $
+/// \file electromagnetic/TestEm1/include/StepMax.hh
+/// \brief Definition of the StepMax class
 //
-/// \file Gold1DetectorConstruction.hh
-/// \brief Definition of the Gold1DetectorConstruction class
+// $Id: StepMax.hh 66241 2012-12-13 18:34:42Z gunter $
+//
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef Gold1DetectorConstruction_h
-#define Gold1DetectorConstruction_h 1
+#ifndef StepMax_h
+#define StepMax_h 1
 
-#include "G4VUserDetectorConstruction.hh"
-
-#include "G4ThreeVector.hh"
 #include "globals.hh"
+#include "G4VDiscreteProcess.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4Step.hh"
 
-class Gold1DetectorMessenger;
-class G4VPhysicalVolume;
-class G4LogicalVolume;
+class StepMaxMessenger;
 
-/// Detector construction class to define materials and geometry.
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class Gold1DetectorConstruction : public G4VUserDetectorConstruction
+class StepMax : public G4VDiscreteProcess
 {
-  friend class Gold1SensitiveDetector;
-  friend class Gold1DetectorMessenger;
+  public:
 
-public:
+     StepMax(const G4String& processName = "UserMaxStep");
+    ~StepMax();
 
-  Gold1DetectorConstruction();
-  virtual ~Gold1DetectorConstruction();
+     virtual G4bool IsApplicable(const G4ParticleDefinition&);
 
-  virtual G4VPhysicalVolume* Construct();
+     void SetMaxStep(G4double);
 
-  virtual void ConstructSDandField();
+     G4double GetMaxStep() {return fMaxChargedStep;};
 
-private:
+     virtual G4double PostStepGetPhysicalInteractionLength(const G4Track& track,
+                                               G4double previousStepSize,
+                                               G4ForceCondition* condition);
 
-  Gold1DetectorMessenger* fpDetectorMessenger;
-//  Gold1SensitiveDetector* fpSensitiveDetector;
+     virtual G4VParticleChange* PostStepDoIt(const G4Track&, const G4Step&);
+
+     virtual G4double GetMeanFreePath(const G4Track&,G4double,G4ForceCondition*)
+     {return DBL_MAX;};    
+
+  private:
+
+     G4double fMaxChargedStep;
+     
+     StepMaxMessenger* fMess;
 };
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 #endif
+

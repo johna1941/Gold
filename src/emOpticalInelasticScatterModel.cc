@@ -28,8 +28,8 @@ const int nELF = 100;
 //const int nMFP = 100;
 //const int nELF = 200;
 
-G4ThreadLocal gsl_spline *MFPspline= gsl_spline_alloc(gsl_interp_cspline,nMFP);
-G4ThreadLocal gsl_interp_accel *MFPaccelerator = gsl_interp_accel_alloc();
+G4ThreadLocal gsl_spline *MFPspline = nullptr;
+G4ThreadLocal gsl_interp_accel *MFPaccelerator = nullptr;
 
 const double lowElimit = 35;
 const double highElimit = 5000;
@@ -38,7 +38,7 @@ G4ThreadLocal double ELFx[nELF+1];
 G4ThreadLocal double ELFy[nELF+1];
 G4ThreadLocal double ELF[nELF+1][nELF+1];
 
-G4ThreadLocal G4ParticleChangeForLoss* opticalParticleChange = new G4ParticleChangeForLoss;
+G4ThreadLocal G4ParticleChangeForLoss* opticalParticleChange = nullptr;
 
 G4ThreadLocal G4bool isInitialisedOIS = false;
 
@@ -48,6 +48,9 @@ emOpticalInelasticScatterModel::emOpticalInelasticScatterModel(const G4ParticleD
                                                      const G4String& nam)
   :G4VEmModel(nam)
 { 
+  if (MFPspline == nullptr) MFPspline = gsl_spline_alloc(gsl_interp_cspline,nMFP);
+  if (MFPaccelerator == nullptr) MFPaccelerator = gsl_interp_accel_alloc();
+  if (opticalParticleChange == nullptr) opticalParticleChange = new G4ParticleChangeForLoss;
 }
 
 emOpticalInelasticScatterModel::~emOpticalInelasticScatterModel()

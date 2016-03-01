@@ -39,13 +39,17 @@
 
 #include "G4Timer.hh"
 #include "G4UImanager.hh"
-#include "QBBC.hh"
-#include "G4OpticalPhysics.hh"
+
+#include "G4PhysListFactory.hh"
+#include "emNISTPhysicsConstructor.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 
 #include "Randomize.hh"
+
+#include "PhysicsList.hh"
+#include "G4PhysicsListHelper.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -76,7 +80,7 @@ int main(int argc,char** argv)
   //
 #ifdef G4MULTITHREADED
   G4MTRunManager* runManager = new G4MTRunManager;
-  runManager->SetNumberOfThreads(4);
+  runManager->SetNumberOfThreads(8);
 #else
   G4RunManager* runManager = new G4RunManager;
 #endif
@@ -87,11 +91,13 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new Gold1DetectorConstruction());
 
   // Physics list
-  G4VModularPhysicsList* physicsList = new QBBC;
-  physicsList->RegisterPhysics(new G4OpticalPhysics);
-  physicsList->SetVerboseLevel(0);
-  runManager->SetUserInitialization(physicsList);
-    
+  G4PhysListFactory factory;
+  G4VModularPhysicsList* physicslist = factory.ReferencePhysList();
+  physicslist->SetVerboseLevel(0);
+  physicslist->RegisterPhysics(new emNISTPhysicsConstructor);
+  runManager->SetUserInitialization(physicslist);
+  G4PhysicsListHelper::GetPhysicsListHelper()->DumpOrdingParameterTable();
+  
   // User action initialization
   runManager->SetUserInitialization(new Gold1ActionInitialization());
   

@@ -24,7 +24,7 @@
 
 using namespace std;
 
-G4ThreadLocal G4ParticleChangeForGamma* NISTparticleChange = new G4ParticleChangeForGamma;
+G4ThreadLocal G4ParticleChangeForGamma* NISTparticleChange = nullptr;
 
 G4CrossSectionDataSet * angularDistributionDataset;
 G4CrossSectionDataSet * transportDataset;
@@ -37,6 +37,7 @@ emNISTElasticScatterModel::emNISTElasticScatterModel(const G4ParticleDefinition*
                                                      const G4String& nam)
   :G4VEmModel(nam)
 {
+  if (NISTparticleChange == nullptr) NISTparticleChange = new G4ParticleChangeForGamma;
 }
 
 emNISTElasticScatterModel::~emNISTElasticScatterModel()

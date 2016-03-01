@@ -22,7 +22,7 @@ endif()
 # Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include /usr/local/include)
 
 
 #----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(Gold1 Gold1.cc ${sources} ${headers})
-target_link_libraries(Gold1 ${Geant4_LIBRARIES})
+target_link_libraries(Gold1 ${Geant4_LIBRARIES} /usr/local/lib/libgsl.dylib)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
